@@ -19,23 +19,23 @@
     <header>
         <h1 class="logo">
             <span>Library</span>
-            <span id="toggle-mode"><i class="far fa-lightbulb"></i></span>
+            <span id="color-mode"><i class="far fa-lightbulb"></i></span>
         </h1>
         <p class="description">
-            Currently holds <span id="book-count">1</span> book
+            Currently holds <span id="book-count"><strong>0</strong> books</span>
         </p>
     </header>
     <main>
         <div class="container">
             <div class="actions">
                 <div class="left-actions">
-                    <button>
+                    <button id="new-book">
                         <span>
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span>Add Book</span>
+                        <span>New Book</span>
                     </button>
-                    <button>
+                    <button id="load-demo-data">
                         <span>
                             <i class="fas fa-database"></i>
                         </span>
@@ -44,19 +44,19 @@
                 </div><!-- .left-actions -->
 
                 <div class="right-actions">
-                    <button class="active">
+                    <button class="filter" data-filter="all">
                         <span>
                             <i class="fas fa-list"></i>
                         </span>
                         <span>All</span>
                         </button>
-                    <button>
+                    <button class="filter" data-filter="read">
                         <span>
                             <i class="fas fa-check"></i>
                         </span>
                         <span>Read</span> 
                         </button>
-                    <button>
+                    <button class="filter" data-filter="not-read">
                         <span>
                             <i class="fas fa-times"></i>
                         </span>
@@ -66,27 +66,7 @@
             </div><!-- .actions -->
 
             <div class="books">
-                <div class="book">
-                    <div class="book-info">
-                        <p class="book-title">The Hobbit</p>
-                        <p class="book-author">J.R.R. Tolkien</p>
-                        <p class="book-num-pages">295</p>
-                    </div><!-- .book-info -->
-                    <div class="book-actions">
-                        <button>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span>BOOK READ</span>
-                        </button>
-                        <button>
-                            <span>
-                                <i class="fas fa-trash-alt"></i>
-                            </span>
-                            <span>DELETE BOOK</span>
-                        </button>
-                    </div><!-- .book-actions -->
-                </div>
+                <p id="no-books" class="hide"></p>
             </div><!-- .books -->
         </div><!-- .container -->
     </main>
@@ -104,22 +84,42 @@
                 Add Book
             </div><!-- .modal-title -->
             <div class="modal-content">
-                <form id="add-book-form" action="#">
+                <form id="add-book-form" action="#" novalidate>
                     <div class="form-field">
                         <label for="book-title">Title</label>
-                        <input type="text" id="book-title" name="book-title" autofocus required>
+                        <input type="text"
+                               id="book-title"
+                               name="book-title"
+                               placeholder="In Search of Lost Time"
+                               maxlength="64"
+                               autofocus 
+                               required>
+                        <p class="error"></span>
                     </div>
                     <div class="form-field">
                         <label for="book-author">Author</label>
-                        <input type="text" id="book-author" name="book-author" required>
+                        <input type="text"
+                               id="book-author"
+                               name="book-author"
+                               placeholder="Marcel Proust"
+                               maxlength="64"
+                               required>
+                        <p class="error"></span>
                     </div>
                     <div class="form-field">
                         <label for="book-num-pages">Number of pages</label>
-                        <input type="number" id="book-num-pages" name="book-num-pages" min="1" max="5000" required>
+                        <input type="number"
+                               id="book-num-pages"
+                               name="book-num-pages"
+                               min="1"
+                               max="5000"
+                               placeholder="468"
+                               required>
+                        <p class="error"></span>
                     </div>
                     <div class="form-field">
                         <label>
-                            <input type="checkbox" name="book-read" id="book-read">
+                            <input type="checkbox" name="book-is-read" id="book-is-read">
                             I have read this book
                         </label>
                     </div>
@@ -130,7 +130,7 @@
                     <span><i class="fas fa-plus"></i></span>
                     <span>Add Book</span>
                 </button>
-                <button form="add-book-form">
+                <button id="cancel-button">
                     <span><i class="fas fa-times"></i></span>
                     <span>Cancel</span>
                 </button>

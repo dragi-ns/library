@@ -10,7 +10,7 @@
     --box-shadow-color: rgba(0, 0, 0, 0.3);
 }
 
-[data-mode='dark'] {
+[data-color-mode='dark'] {
     --background-color: #242424;
     --foreground-color: #f9f9f9;
     --box-shadow-color: rgba(0, 0, 0, 1);
@@ -27,7 +27,7 @@ body {
 
 main {
     flex: 1;
-    margin: 2rem 0;
+    margin: 1rem 0;
 }
 
 header,
@@ -86,13 +86,13 @@ input {
     text-transform: uppercase;
 }
 
-#toggle-mode {
+#color-mode {
     font-size: .5em;
     cursor: pointer;
     vertical-align: middle;
 }
 
-#toggle-mode i {
+#color-mode i {
     vertical-align: text-top;
 }
 
@@ -100,13 +100,14 @@ input {
     font-size: 1.1rem; 
 }
 
-#book-count {
-    font-weight: bold;
-}
-
 .container {
     width: 95%;
     margin: 0 auto;
+}
+
+.container > p {
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 .actions {
@@ -158,6 +159,11 @@ input {
     box-shadow: var(--box-shadow-color) 0px 1px 4px;
 }
 
+.book-title,
+.book-author {
+    word-break: break-all;
+}
+
 .book-title {
     font-size: 1.5rem;
 }
@@ -178,6 +184,10 @@ input {
 
 .clipped {
     overflow: hidden;
+}
+
+.hide {
+    display: none;
 }
 
 .modal {
@@ -231,6 +241,10 @@ input {
     flex-direction: column;
     row-gap: .25rem;
     margin-bottom: 1rem;
+}
+
+.error {
+    color: #e74c3c;
 }
 
 @media only screen and (min-width: 500px) {
