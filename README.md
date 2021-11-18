@@ -17,4 +17,4 @@ Book Library implemented in JavaScript with a simple graphical user interface. T
 
 ## Demo
 
-TODO
+![mobile-demo](demo/demo.gif)
