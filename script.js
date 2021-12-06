@@ -1,3 +1,35 @@
+class Book {
+    #element = null;
+
+    constructor(title, author, numPages, isRead, id = null) {
+        this.id = id ?? this.#generateID();
+        this.title = title;
+        this.author = author;
+        this.numPages = numPages;
+        this.isRead = isRead;
+    }
+
+    #generateID() {
+        // https://dev.to/coderkearns/comment/lm99
+        return Math.floor(Math.random() * Date.now());
+    }
+
+    toggleIsRead() {
+        this.isRead = !this.isRead;
+    }
+
+    get element() {
+        return this.#element;
+    }
+
+    set element(newElement) {
+        if (this.#element) {
+            this.#element.remove();
+        }
+        this.#element = newElement;
+    }
+}
+
 (function IIFE() {
     const BOOKS_DEMO = [
         new Book('Anna Karenina', 'Leo Tolstoy', 864, true),
@@ -67,56 +99,6 @@
     const noBooks = document.querySelector('#no-books');
     createBookElements();
     displayBookElements();
-
-    function Book(title, author, numPages, isRead, id = null) {
-        this.id = id ?? generateID();
-        this.title = title;
-        this.author = author;
-        this.numPages = numPages;
-        this.isRead = isRead;
-        Object.defineProperties(this, {
-            _element: {
-                value: null,
-                writable: true,
-                enumerable: false
-            },
-            element: {
-                get() { return this._element; },
-                set(newElement) {
-                    if (this._element) {
-                        this._element.remove();
-                    }
-                    this._element = newElement;
-                },
-                enumerable: false
-            }
-        });
-    }
-
-    Book.prototype.toggleIsRead = function toggleIsRead() {
-        this.isRead = !this.isRead;
-        this.updateReadButton();
-    };
-
-    Book.prototype.updateReadButton = function updateReadButton() {
-        if (!this.element) {
-            return;
-        }
-        const readButtonIcon = this.element.querySelector('.read-button span:first-child i');
-        const readButtonText = this.element.querySelector('.read-button span:last-child');
-        if (!readButtonIcon || !readButtonText) {
-            return;
-        }
-
-        const [iconClassName, text] = getBookElementActionReadButtonContent(this.isRead);
-        readButtonIcon.className = iconClassName;
-        readButtonText.textContent = text;
-    };
-
-    function generateID() {
-        // https://dev.to/coderkearns/comment/lm99
-        return Math.floor(Math.random() * Date.now());
-    }
 
     function createBookElements() {
         books.forEach((book) => book.element = createBookElement(book));
@@ -260,6 +242,7 @@
             return;
         }
         match.book.toggleIsRead();
+        updateReadButton(match.book);
         if (shouldBeFiltered(match.book.isRead)) {
             match.book.element.classList.add('hide');
             if (shouldDisplayNoBooksMsg()) {
@@ -269,6 +252,21 @@
             }
         }
         updateBookStorage();
+    }
+
+    function updateReadButton(book) {
+        if (!book.element) {
+            return;
+        }
+        const readButtonIcon = book.element.querySelector('.read-button span:first-child i');
+        const readButtonText = book.element.querySelector('.read-button span:last-child');
+        if (!readButtonIcon || !readButtonText) {
+            return;
+        }
+
+        const [iconClassName, text] = getBookElementActionReadButtonContent(book.isRead);
+        readButtonIcon.className = iconClassName;
+        readButtonText.textContent = text;
     }
 
     function handleDeleteButton(event) {
